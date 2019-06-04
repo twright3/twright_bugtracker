@@ -1,0 +1,356 @@
+﻿@using twright_bugtracker.Helpers
+@using twright_bugtracker.Models
+@model twright_bugtracker.Models.Ticket
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+<div class="customContentPanel">
+    <div class="card card-chart">
+        <div class="card-body">
+            <h1><span style="color:#f96332; font-weight:bold">Ticket Details for @Html.DisplayFor(model => Model.Project.Name)</span></h1>
+
+            <div>
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                    @Html.ActionLink("Back to List", "MyIndex")
+                </p>
+                <hr />
+                <div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Project:</span> @Html.DisplayFor(model => Model.Project.Name)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Ticket Name:</span>: @Html.DisplayFor(model => Model.Title)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Priority:</span> @Html.DisplayFor(model => Model.TicketPrority.Name)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Status:</span> @Html.DisplayFor(model => Model.TicketStatus.Name)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Description:</span>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Created:</span> @Html.DisplayFor(model => Model.Created)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Updated:</span> @Html.DisplayFor(model => Model.Updated)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold"> Developer:</span>  @Html.DisplayFor(model => Model.AssignedToUser.Email)
+                            </div>
+
+                            <br />
+
+                            <div>
+                                <span style="color:#f96332; font-weight:bold">Submitter:</span> @Html.DisplayFor(model => Model.OwnerUser.Email)
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => Model.Description)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-chart">
+                <div class="card-body">
+                    <div>
+                        <div class="card-header ">
+                            <h4 class="card-title">
+                                <span style="color:#f96332; font-weight:bold">Ticket Comments</span> -
+                                <small class="description">(@Model.TicketComments.Count())</small>
+                            </h4>
+                        </div>
+                        <div class="card-body ">
+                            <ul class="nav nav-pills nav-pills-primary" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist">
+                                        Comments
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                                        Leave A Comment
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content tab-space">
+                                <div class="tab-pane active" id="link1">
+
+                                    <!--comment listing-->
+                                    @foreach (var comment in Model.TicketComments.OrderByDescending(t => t.Created))
+                                    {
+                                        <div class="card card-testimonial">
+                                            <div class="card-header card-header-avatar">
+                                                <a href="#pablo">
+                                                    <img class="img img-raised" src="@UserRolesHelper.GetUserImage(comment.UserId)">
+                                                </a>
+                                            </div>
+                                            <div class="card-body ">
+                                                <p class="card-description">
+                                                    @comment.CommentBody
+                                                </p>
+                                            </div>
+                                            <div class="card-footer ">
+                                                <h6 class="card-title">@comment.User.FullName</h6>
+                                                <p class="category">@comment.Created</p>
+                                            </div>
+                                        </div>
+
+
+
+                                    }
+
+                                </div>
+
+                                <div class="tab-pane" id="link2">
+                                    <!--This is where I eventually create the form that will allow users to comment on the ticket-->
+
+                                    @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("TicketId", Model.Id)
+
+                                        <div class="col-md-6">
+
+                                            @Html.Label("Add Comment", new { @class = "control-label col-md-6" })
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            @Html.TextArea("CommentBody", null, new { rows = 10, cols = 50, @placeholder = "Add your comment" })
+
+                                        </div>
+
+                                        <br />
+
+                                        <button type="submit" class="btn btn-primary btn-round">Add Comment</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-chart">
+                <div class="card-body">
+                    <div class="card-header ">
+                        <h4 class="card-title">
+                            <span style="color:#f96332; font-weight:bold">Ticket Attachments</span> -
+                            <small class="description">(@Model.TicketAttachments.Count())</small>
+                        </h4>
+                    </div>
+                    <div class="card-body ">
+                        <ul class="nav nav-pills nav-pills-primary" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#link3" role="tablist">
+                                    Attachments
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#link4" role="tablist">
+                                    Add a Attachment
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content tab-space">
+                            <div class="tab-pane active" id="link3">
+
+                                <!--Attachment List listing-->
+                                @foreach (var attachment in Model.TicketAttachments.OrderByDescending(t => t.Created))
+                                {
+
+
+
+
+
+                                    <div class="card card-testimonial">
+                                        <div class="card-header card-header-avatar" style="padding-top:35px">
+                                            <a href=@Url.Content(@attachment.FilePath) target="_blank">
+                                                <img class="avatar" src="@AttachmentHelper.DisplayImage(attachment.FilePath)" />
+
+                                            </a>
+                                        </div>
+                                        <div class="card-body ">
+                                            <p class="card-description">
+                                                @attachment.AttachmentDescription
+                                            </p>
+                                        </div>
+                                        <div class="card-footer ">
+                                            <h6 class="card-title">@attachment.User.FullName</h6>
+                                            <p class="category">@attachment.Created</p>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+                                    //need to find format of comment style
+                                    //add @comment.User.Email or FullName
+                                    //add @comment.CommentBody
+                                    //possible @comment.Created somewhere
+
+                                    //Need to style//
+
+                                    @*<a href=@Url.Content(@attachment.FilePath) target="_blank">
+                                            <img src="@AttachmentHelper.DisplayImage(attachment.FilePath)" />
+
+                                        </a>
+
+                                        <p>Attachment By: @attachment.User.Email</p>
+                                        <p>@attachment.AttachmentDescription</p>
+                                        <p>Created: @attachment.Created</p>
+                                        <hr />
+                                        <hr />
+                                        <hr />*@
+
+                                }
+
+                            </div>
+
+                            <div class="tab-pane" id="link4">
+                                <!--This is where I eventually create the form that will allow users to add attachment on the ticket-->
+
+                                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("TicketId", Model.Id)
+
+                                    <div class="col-md-6">
+
+                                        @Html.Label("Attachment Description", new { @class = "control-label col-md-6" })
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        @Html.TextArea("AttachmentDescription", new { rows = 2, cols = 100 })
+
+                                    </div>
+
+
+
+
+                                    <div class="col-md-6">
+                                        @Html.Label("Upload Attachment", htmlAttributes: new { @class = "control-label col-md-6" })
+                                        <div class="col-md-12">
+                                            <input type="file" name="attachment" />
+                                        </div>
+
+                                    </div>
+
+                                    <br />
+
+                                    <button type="submit" class="btn btn-primary btn-round">Add Attachment</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="customContentPanel">
+        <div class="card card-chart">
+            <div class="card-body">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-timeline card-plain">
+                                <div class="card-body">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">
+                                            <span style="color:#f96332; font-weight:bold">Ticket History</span> -
+                                            <small class="description">(@Model.TicketHistories.Count())</small>
+                                        </h4>
+                                    </div>
+                                    <ul class="timeline">
+
+                                        @foreach (var history in Model.TicketHistories.OrderByDescending(t => t.ChangeDate))
+                                        {
+                                            <li class="timeline">
+                                                <div class="timeline-badge danger">
+                                                    <i class="now-ui-icons objects_planet"></i>
+                                                </div>
+                                                <div class="timeline-panel">
+                                                    <div class="timeline-heading">
+                                                        <span class="badge badge-danger">@history.Property</span>
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <p>Old Value</p>
+                                                        <p>@history.OldValue</p>
+                                                        <p>New Value</p>
+                                                        <p>@history.NewValue</p>
+                                                    </div>
+                                                    <h6>
+                                                        <i class="ti-time"></i> @history.ChangeDate
+                                                    </h6>
+                                                </div>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>

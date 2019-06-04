@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "ManageRoles";
+}
+
+
+@*<div class="panel-header panel-header-lg">
+    <canvas id="bigDashboardChart"></canvas>
+</div>*@
+<div class="customContentPanel">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Users", htmlAttributes: new { @class = "control-lable col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Roles", htmlAttributes: new { @class = "control-lable col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Roles", null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" value="Assign" class="btn btn-default" />
+            </div>
+
+        </div>
+
+    }
+
+</div>

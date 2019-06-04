@@ -1,0 +1,40 @@
+﻿#headerImage {
+    background-image: url(../../Images/bg14.jpg);
+}
+
+
+.customContentPanel {
+    padding-top: 30px;
+    padding-left: 30px;
+    background: whitesmoke;
+}
+
+.customDetailPanel {
+    padding-top: 30px;
+    background: whitesmoke;
+}
+
+.forgetPassword {
+    color:white;
+}
+
+.detailDisplay {
+    font-weight: bold;
+    color: #f96332;
+}
+
+.card .profileEditAvatar {
+    width: auto;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 80% !important;
+    margin-bottom: 15px;
+   
+}
+
+.info .custominfo-title {
+    margin: 15px 0 5px;
+    padding: 0 15px;
+    color: #f96332;
+    font-weight: 700;
+}

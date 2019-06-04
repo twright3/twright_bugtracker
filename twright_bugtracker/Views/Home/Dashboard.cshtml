@@ -1,0 +1,148 @@
+﻿@using twright_bugtracker.Models
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+@{
+    var db = new ApplicationDbContext();
+}
+<div class="customContentPanel">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="info">
+                                <h2 class="custominfo-title" style="text-align:center">Company-Wide Stats</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="statistics">
+                                <div class="info">
+                                    <div class="icon icon-primary">
+                                        <i class="now-ui-icons ui-2_chat-round"></i>
+                                    </div>
+                                    <h3 class="info-title">@db.TicketNotifications.Count()</h3>
+                                    <h6 class="stats-title">Notifications</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="statistics">
+                                <div class="info">
+                                    <div class="icon icon-default">
+                                        <i class="now-ui-icons files_box"></i>
+                                    </div>
+                                    <h3 class="info-title">@db.Projects.Count()</h3>
+                                    <h6 class="stats-title">Projects</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="statistics">
+                                <div class="info">
+                                    <div class="icon icon-success">
+                                        <i class="now-ui-icons files_paper"></i>
+                                    </div>
+                                    <h3 class="info-title">@db.Tickets.Count()</h3>
+                                    <h6 class="stats-title">Tickets</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="statistics">
+                                <div class="info">
+                                    <div class="icon icon-info">
+                                        <i class="now-ui-icons health_ambulance"></i>
+                                    </div>
+                                    <h3 class="info-title">@db.Tickets.Where(t => t.TicketType.Name == "Completed").Count()</h3>
+                                    <h6 class="stats-title">Fixed Bugs</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="info">
+                                <h2 class="custominfo-title" style="text-align:center">Tickts by Ticket Type</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <canvas id="myChart" width="400" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+
+    <script>
+        //TicketTypes Chart
+        var url = '@Url.Action("GetTicketTypeChartData", "Chart")';
+        $.post(url).then(function (response) {
+            $('#myChart').empty();
+            var ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: response.Labels,
+                    datasets: [{
+                        label: 'Tickets by Type',
+                        data: response.Data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+
+}

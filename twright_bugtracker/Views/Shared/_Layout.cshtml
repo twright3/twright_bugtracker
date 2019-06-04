@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+
+@using Microsoft.AspNet.Identity
+@using twright_bugtracker.Models
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../../Images/apple-icon.png">
+    <link rel="icon" type="image/png" href="../../favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        BugTracker By Travis Wright
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+    <!-- CSS Files -->
+    @*<link href="../assets/css/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="../assets/css/now-ui-dashboard.css?v=1.4.0" rel="stylesheet" />*@
+    <link href="~/Content/now-ui-dashboard.css?v=1.4.0" rel="stylesheet" />
+    <link href="~/Content/Custom.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    @*<link href="../assets/demo/demo.css" rel="stylesheet" />*@
+
+    @*<style>
+        .sidebar .nav li > a, .off-canvas-sidebar .nav li > a, #LogOff {
+            margin: 10px 15px 0;
+            border-radius: 30px;
+            color: #FFFFFF;
+            display: block;
+            text-decoration: none;
+            position: relative;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.7142em;
+            padding: 10px 8px;
+            line-height: 1.625rem;
+
+        }
+
+
+            #LogOff:hover {
+                color: #FFFFFF;
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+
+    </style>*@
+
+
+</head>
+<body class=" sidebar-mini ">
+    <div class="wrapper ">
+        <div class="sidebar" data-color="orange">
+            <!--
+                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+            -->
+            <div class="logo">
+                <a href="@Url.Action("Dashboard", "Home")" class="simple-text logo-mini">
+                    BT
+                </a>
+                <a href="@Url.Action("Dashboard", "Home")" class="simple-text logo-normal">
+                    BugTracker
+                </a>
+                <div class="navbar-minimize">
+                    <button id="minimizeSidebar" class="btn btn-simple btn-icon btn-neutral btn-round">
+                        <i class="now-ui-icons text_align-center visible-on-sidebar-regular"></i>
+                        <i class="now-ui-icons design_bullet-list-67 visible-on-sidebar-mini"></i>
+                    </button>
+                </div>
+            </div>
+
+            @{
+                ApplicationUser user = null;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    var userId = User.Identity.GetUserId();
+                    var db = new ApplicationDbContext();
+                    user = db.Users.Find(userId);
+                }
+            }
+
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "frmLogOff" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="sidebar-wrapper" id="sidebar-wrapper">
+                    <div class="user">
+                        <div class="photo">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <img src=@Url.Content(user.ProfilePic) />
+                            }
+
+                        </div>
+                        <div class="info">
+                            <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+                                <span>
+                                    @user.FullName
+                                    <b class="caret"></b>
+                                </span>
+                            </a>
+                            <div class="clearfix"></div>
+                            <div class="collapse" id="collapseExample">
+                                <ul class="nav">
+                                    <li>
+                                        <a href="@Url.Action("EditProfile", "User")">
+                                            <span class="sidebar-mini-icon">EP</span>
+                                            <span class="sidebar-normal">Edit Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("ChangePassword", "Manage")">
+                                            <span class="sidebar-mini-icon">CP</span>
+                                            <span class="sidebar-normal">Change Password</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Index", "TicketNotifications")">
+                                            <span class="sidebar-mini-icon">Nt</span>
+                                            <span class="sidebar-normal">Notifications</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <ul class="nav customNav">
+
+                        <li id="initialActive">
+                            <a href="@Url.Action("Dashboard", "Home")">
+                                <i class="now-ui-icons business_globe"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("Index", "Projects")">
+                                    <i class="now-ui-icons design_app"></i>
+                                    <p>All Projects Index</p>
+                                </a>
+                            }
+                        </li>
+                        <li>
+                            @if ((User.IsInRole("Submitter")) || (User.IsInRole("ProjectManager")) || (User.IsInRole("Developer")))
+                            {
+                                <a href="@Url.Action("MyIndex", "Projects")">
+                                    <i class="now-ui-icons business_briefcase-24"></i>
+                                    <p>My Projects Index</p>
+                                </a>
+                            }
+                        </li>
+                        <li>
+                            @if (User.IsInRole("Admin") && (User.IsInRole("ProjectManager")))
+                            {
+                                <a href="@Url.Action("Create", "Projects")">
+                                    <i class="now-ui-icons business_briefcase-24"></i>
+                                    <p>Create Projects</p>
+                                </a>
+                            }
+                        </li>
+                        <li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("UserIndex", "Admin")">
+                                    <i class="now-ui-icons users_single-02"></i>
+                                    <p>User Index</p>
+                                </a>
+                            }
+                        </li>
+                        <li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="@Url.Action("ManageRoles", "Admin")">
+                                    <i class="now-ui-icons users_single-02"></i>
+                                    <p>Manage Roles</p>
+                                </a>
+                            }
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Tickets")">
+                                <i class="now-ui-icons files_paper"></i>
+                                <p>Tickets Index</p>
+                            </a>
+                        </li>
+                        <li>
+                            @if (User.IsInRole("Submitter"))
+                            {
+                                <a href="@Url.Action("Create", "Tickets")">
+                                    <i class="now-ui-icons design_bullet-list-67"></i>
+                                    <p>Create Ticket</p>
+                                </a>
+                            }
+                        </li>
+
+                        <li>
+                            <a id="LogOff" style="color:white !important">
+                                <i class="now-ui-icons sport_user-run"></i>
+                                <p>Log Off</p>
+
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            }
+        </div>
+
+
+
+        <div class="main-panel" id="main-panel">
+            <div class="row">
+                <div class="col-md-12 text-center customDetailPanel">
+                    <p><img src="~/Images/BugTracker_Header.png" /></p>
+                </div>
+            </div>
+
+            @RenderBody()
+
+
+            <footer class="footer">
+                <div class=" container-fluid ">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="https://twright-portfolio.azurewebsites.net/" target="_blank">
+                                    Portfolio
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twright-blog.azurewebsites.net/" target="_blank">
+                                    Blog
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="copyright" id="copyright">
+                        &copy;
+                        <script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>, Designed by
+                        <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by
+                        <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                        <a>Customized by</a>.
+                        <a href="https://twright-portfolio.azurewebsites.net/" target="_blank">Travis Wright</a>.
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!--   Core JS Files   -->
+    @*<script src="../assets/js/core/jquery.min.js"></script>*@
+    <script src="~/Scripts/core/jquery.min.js"></script>
+    @*<script src="../assets/js/core/popper.min.js"></script>*@
+    <script src="~/Scripts/core/popper.min.js"></script>
+    @*<script src="../assets/js/core/bootstrap.min.js"></script>*@
+    <script src="~/Scripts/core/bootstrap.min.js"></script>
+    @*<script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>*@
+    <script src="~/Scripts/plugins/perfect-scrollbar.jquery.min.js"></script>
+    @*<script src="../assets/js/plugins/moment.min.js"></script>*@
+    <script src="~/Scripts/plugins/moment.min.js"></script>
+
+    <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+    @*<script src="../assets/js/plugins/bootstrap-switch.js"></script>*@
+    <script src="~/Scripts/plugins/bootstrap-switch.js"></script>
+
+    <!--  Plugin for Sweet Alert -->
+    @*<script src="../assets/js/plugins/sweetalert2.min.js"></script>*@
+    <script src="~/Scripts/plugins/sweetalert2.min.js"></script>
+
+    <!-- Forms Validations Plugin -->
+    @*<script src="../assets/js/plugins/jquery.validate.min.js"></script>*@
+    <script src="~/Scripts/plugins/jquery.validate.min.js"></script>
+
+    <!--  Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+    @*<script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>*@
+    <script src="~/Scripts/plugins/jquery.bootstrap-wizard.js"></script>
+
+    <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+    @*<script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>*@
+    <script src="~/Scripts/plugins/bootstrap-selectpicker.js"></script>
+
+    <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+    @*<script src="../assets/js/plugins/bootstrap-datetimepicker.js"></script>*@
+    <script src="~/Scripts/plugins/bootstrap-datetimepicker.js"></script>
+
+    <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
+    @*<script src="../assets/js/plugins/jquery.dataTables.min.js"></script>*@
+    <script src="~/Scripts/plugins/jquery.dataTables.min.js"></script>
+
+    <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+    @*<script src="~/assets/js/plugins/bootstrap-tagsinput.js"></script>*@
+    <script src="~/Scripts/plugins/bootstrap-tagsinput.js"></script>
+
+    <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+    @*<script src="../assets/js/plugins/jasny-bootstrap.min.js"></script>*@
+    <script src="~/Scripts/plugins/jasny-bootstrap.min.js"></script>
+
+    <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+    @*<script src="../assets/js/plugins/fullcalendar.min.js"></script>*@
+    <script src="~/Scripts/plugins/fullcalendar.min.js"></script>
+
+    <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+    @*<script src="../assets/js/plugins/jquery-jvectormap.js"></script>*@
+    <script src="~/Scripts/plugins/jquery-jvectormap.js"></script>
+
+    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    @*<script src="../assets/js/plugins/nouislider.min.js"></script>*@
+    <script src="~/Scripts/plugins/nouislider.min.js"></script>
+
+    <!--  Google Maps Plugin    -->
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>*@
+
+    <!-- Chart JS -->
+    @*<script src="../assets/js/plugins/chartjs.min.js"></script>*@
+    <script src="~/Scripts/plugins/chartjs.min.js"></script>
+
+    <!--  Notifications Plugin    -->
+    @*<script src="../assets/js/plugins/bootstrap-notify.js"></script>*@
+    <script src="~/Scripts/plugins/bootstrap-notify.js"></script>
+
+    <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+    @*<script src="../assets/js/now-ui-dashboard.min.js?v=1.4.0" type="text/javascript"></script>*@
+    <script src="~/Scripts/now-ui-dashboard.min.js?v=1.4.0" type="text/javascript"></script>
+
+    <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
+    @*<script src="../assets/demo/demo.js"></script>*@
+
+ 
+
+        <script>
+            $('#DataTable').DataTable();
+
+            $("#LogOff").click(function () {
+                $("#frmLogOff").submit();
+            });
+
+
+            //$('.customNav').on('click', 'li', function() {
+            //    $('.customNav li.active').removeClass('active');
+            //    $(this).addClass('active');
+
+            //});
+
+            $(function () {
+                setNavigation();
+            });
+
+            function setNavigation() {
+                var path = window.location.pathname;
+                path = path.replace(/\/$/, "");
+                path = decodeURIComponent(path);
+
+                $(".nav a").each(function () {
+                    var href = $(this).attr('href');
+                    if (path.substring(0, href.length) === href) {
+                        $(this).closest('li').addClass('active');
+                    }
+                });
+            }
+        </script>
+
+        @RenderSection("scripts", required: false)
+ 
+</body>
+</html>

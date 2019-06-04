@@ -1,0 +1,66 @@
+﻿@using twright_bugtracker.Helpers
+@model IEnumerable<twright_bugtracker.Models.TicketHistory>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="customContentPanel">
+    <h2>Ticket History Index</h2>
+
+    
+    <table id="DataTable" class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("User")
+                </th>
+              
+                <th>
+                    @Html.DisplayNameFor(model => model.Property)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OldValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NewValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChangeDate)
+                </th>
+                @*<th></th>*@
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.OwnerUser.Email)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Property)
+                    </td>
+                    <td>
+                        @TicketHistoryHelper.GetHistoryInfo(item.OldValue ?? "", item.Property)
+                    </td>
+                    <td>
+                        @TicketHistoryHelper.GetHistoryInfo(item.NewValue ?? "", item.Property)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChangeDate)
+                    </td>
+                    @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

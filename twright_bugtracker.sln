@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "twright_bugtracker", "twright_bugtracker\twright_bugtracker.csproj", "{1BEEC8AB-C3B6-4F2F-A40C-674BB9588893}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BEEC8AB-C3B6-4F2F-A40C-674BB9588893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BEEC8AB-C3B6-4F2F-A40C-674BB9588893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BEEC8AB-C3B6-4F2F-A40C-674BB9588893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BEEC8AB-C3B6-4F2F-A40C-674BB9588893}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8ACE0FB7-F2B8-4946-A381-C6A35B3628AB}
+	EndGlobalSection
+EndGlobal

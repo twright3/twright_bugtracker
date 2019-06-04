@@ -1,0 +1,101 @@
+﻿@using twright_bugtracker.Helpers
+@model IEnumerable<twright_bugtracker.Models.Project>
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="customContentPanel">
+        <div class="card card-chart">
+            <div class="card-body">
+
+                <h2>Projects Index</h2>
+
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    <p>
+                        @Html.ActionLink("Create New", "Create")
+                    </p>
+                }
+
+                <table id="DataTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Project Name")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Project Manager(s)")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Developer(s)")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Submitter(s)")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Action(s)")
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            var projectHelper = new ProjectHelper();
+                        }
+
+                        @foreach (var project in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @project.Name
+                                </td>
+                                <td>
+                                    @foreach (var user in projectHelper.UsersOnProjectInRole(project.Id, "ProjectManager"))
+                                    {
+                                        @user.FullName <br />
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var user in projectHelper.UsersOnProjectInRole(project.Id, "Developer"))
+                                    {
+                                        @user.FullName <br />
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var user in projectHelper.UsersOnProjectInRole(project.Id, "Submitter"))
+                                    {
+                                        @user.FullName <br />
+                                    }
+                                </td>
+
+
+
+                                <td>
+
+                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    {
+                                        @Html.ActionLink("Edit", "Edit", new { id = project.Id }) @:|
+                                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }) @:|*@
+                                    }
+
+                                    @Html.ActionLink("Details", "Details", new { id = project.Id })
+
+                                    @if (User.IsInRole("Submitter"))
+                                    {
+                                        @:| @Html.ActionLink("Create Ticket", "Create", "Tickets", new { projectId = project.Id }, null)
+                                    }
+
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+</div> 
