@@ -215,6 +215,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Attachments\119_Parris_Plumbing_Diagram.pdf" />
     <Content Include="Attachments\Coming_Soon_grey.jpg" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Custom.css" />
@@ -246,7 +247,6 @@
     <Content Include="Images\Demo_Avatar_Image.png" />
     <Content Include="Images\Register_BugTracker_Logo.png" />
     <Content Include="private.config" />
-    <Content Include="Attachments\119_Parris_Plumbing_Diagram.pdf" />
     <None Include="Properties\PublishProfiles\twrightbugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Images\apple-icon.png" />

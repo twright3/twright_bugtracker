@@ -4,23 +4,12 @@
 }
 
 
-@*<div class="panel-header panel-header-lg">
-    <canvas id="bigDashboardChart"></canvas>
-</div>*@
 <div class="customContentPanel">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+        @Html.Hidden("userId", (string)ViewBag.UserId)
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.Label("Users", htmlAttributes: new { @class = "control-lable col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("Users", null, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                </div>
-
-            </div>
 
 
             <div class="col-md-6">

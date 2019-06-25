@@ -320,9 +320,23 @@
                                     </div>
                                     <ul class="timeline">
 
+                                        @{
+                                            var counter = 1;
+                                            var tlclass = "";
+                                            }
                                         @foreach (var history in Model.TicketHistories.OrderByDescending(t => t.ChangeDate))
                                         {
-                                            <li class="timeline">
+                                            if(counter % 2 != 0)
+                                            {
+                                                tlclass = "timeline";
+                                            }
+                                            else
+                                            {
+                                                tlclass = "timeline-inverted";
+
+                                            }
+                                            <li class="@tlclass">
+
                                                 <div class="timeline-badge danger">
                                                     <i class="now-ui-icons objects_planet"></i>
                                                 </div>
@@ -341,6 +355,7 @@
                                                     </h6>
                                                 </div>
                                             </li>
+                                            counter++;
                                         }
 
                                     </ul>

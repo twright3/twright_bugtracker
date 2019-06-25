@@ -34,18 +34,21 @@ namespace twright_bugtracker.Controllers
 
         // GET: Admin
         [Authorize(Roles = "Admin")]
-        public ActionResult ManageRoles()
+        public ActionResult ManageRoles(string userId)
         {
-            ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
-            ViewBag.Roles = new SelectList(db.Roles.ToList(), "Name", "Name");
+            //ViewBag.Users = new SelectList(db.Users.ToList(), "Id", "Email");
+            ViewBag.UserId = userId;
+            var currentRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+            ViewBag.Roles = new SelectList(db.Roles.ToList(), "Name", "Name", currentRole);
             return View();
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManageRoles(string users, string roles)
+        public ActionResult ManageRoles(string userId, string roles)
         {
-            //I want to ensure theat the person I selected occupies one and only 1 role
+            //I want to ensure theat the person I selected occupies one and only 1 role 
             //Therefore the first thing I am going to do is remove the user from any role
             //they currently occupy
 
@@ -53,13 +56,13 @@ namespace twright_bugtracker.Controllers
 
             //Step 1: Remove any roles currently occupied by the user. We can do this by
             // looping over the roles currently occupied by the user using the roleHelper
-            foreach (var role in roleHelper.ListUserRoles(users))
+            foreach (var role in roleHelper.ListUserRoles(userId))
             {
-                roleHelper.RemoveUserFromRole(users, role);
+                roleHelper.RemoveUserFromRole(userId, role);
             }
 
             //Step 2: Add the newly selected role to the user
-            roleHelper.AddUserToRole(users, roles);
+            roleHelper.AddUserToRole(userId, roles);
 
             return RedirectToAction("UserIndex", "Admin");
         }
@@ -93,10 +96,11 @@ namespace twright_bugtracker.Controllers
         }
 
 
-    public ActionResult UserIndex()
+        public ActionResult UserIndex()
         {
             var users = db.Users.Select(u => new UserViewModel
             {
+                Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 //DisplayName = u.DisplayName,

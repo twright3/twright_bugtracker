@@ -18,13 +18,13 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayName("First Name")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    @Html.DisplayName("Last Name")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Email)
+                    @Html.DisplayName("Email")
                 </th>
                 <th>
                     @Html.DisplayName("Role")
@@ -69,9 +69,7 @@
 
 
                     <td>
-                        @*@Html.ActionLink("Edit Profile", "EditProfile", new { id = item.Email }) |
-                    @Html.ActionLink("Assign Projects", "AssignProjects", new { id = item.Email }) |*@
-                        @Html.ActionLink("Assign Roles", "ManageRoles", new { email = item.Email })
+                        @Html.ActionLink("Assign Roles", "ManageRoles", "Admin", new { userId = item.Id }, null)
 
                     </td>
                 </tr>

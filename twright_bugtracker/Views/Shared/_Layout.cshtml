@@ -147,7 +147,7 @@
                             {
                                 <a href="@Url.Action("Index", "Projects")">
                                     <i class="now-ui-icons design_app"></i>
-                                    <p>All Projects Index</p>
+                                    <p>All Projects</p>
                                 </a>
                             }
                         </li>
@@ -156,7 +156,7 @@
                             {
                                 <a href="@Url.Action("MyIndex", "Projects")">
                                     <i class="now-ui-icons business_briefcase-24"></i>
-                                    <p>My Projects Index</p>
+                                    <p>My Projects</p>
                                 </a>
                             }
                         </li>
@@ -174,11 +174,11 @@
                             {
                                 <a href="@Url.Action("UserIndex", "Admin")">
                                     <i class="now-ui-icons users_single-02"></i>
-                                    <p>User Index</p>
+                                    <p>Users</p>
                                 </a>
                             }
                         </li>
-                        <li>
+                        @*<li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <a href="@Url.Action("ManageRoles", "Admin")">
@@ -186,11 +186,11 @@
                                     <p>Manage Roles</p>
                                 </a>
                             }
-                        </li>
+                        </li>*@
                         <li>
                             <a href="@Url.Action("Index", "Tickets")">
                                 <i class="now-ui-icons files_paper"></i>
-                                <p>Tickets Index</p>
+                                <p>Tickets</p>
                             </a>
                         </li>
                         <li>
@@ -230,20 +230,6 @@
 
             <footer class="footer">
                 <div class=" container-fluid ">
-                    <nav>
-                        <ul>
-                            <li>
-                                <a href="https://twright-portfolio.azurewebsites.net/" target="_blank">
-                                    Portfolio
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://twright-blog.azurewebsites.net/" target="_blank">
-                                    Blog
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
                     <div class="copyright" id="copyright">
                         &copy;
                         <script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>, Designed by

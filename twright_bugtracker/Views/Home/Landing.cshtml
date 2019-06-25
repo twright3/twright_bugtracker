@@ -41,9 +41,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
         <div class="container-fluid">
-            <div class="navbar-wrapper">
+            @*<div class="navbar-wrapper">
                 <a class="navbar-brand" href="">Login Page</a>
-            </div>
+            </div>*@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar navbar-kebab"></span>
                 <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -88,12 +88,6 @@
             <div class="content">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12" style="text-align:center">
-                            <h2 style="color:white">This Site Is Currently In Development Stage.</h2>
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-lg-3">
@@ -102,9 +96,12 @@
                                             <div class="card-icon icon-primary ">
                                                 <i class="now-ui-icons users_single-02"></i>
                                             </div>
-                                            <h3 class="card-title">Demo Administrator</h3>
+                                            <h4 class="card-title">Demo Administrator</h4>
                                             <ul>
-                                                <li>Try BugTracker as Admin</li>
+                                                <li><h6>Try BugTracker as Admin</h6></li>
+                                                <li style="font-size:12px">Is the only one that can Assign Users to Roles.</li>
+                                                <li style="font-size:12px">Can Edit/Delete/View/Create ALL projects and tickets.</li>
+                                                <li style="font-size:12px">Can Assign Projects to Project Managers and Developers. Can Assign Tickets To Developers.</li>
                                             </ul>
                                         </div>
                                         <div class="card-footer">
@@ -121,13 +118,16 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="card card-pricing ">
-                                        <div class="card-body">
+                                        <div class="card-body" style="padding-bottom:46px !important">
                                             <div class="card-icon icon-primary ">
                                                 <i class="now-ui-icons users_single-02"></i>
                                             </div>
-                                            <h3 class="card-title">Demo Submitter</h3>
+                                            <h4 class="card-title">Demo Submitter</h4>
                                             <ul>
-                                                <li>Try BugTracker as Submitter</li>
+                                                <li><h6>Try BugTracker as Submitter</h6></li>
+                                                <li style="font-size:12px">Is the ONLY one that can create tickets.</li>
+                                                <li style="font-size:12px">Can Edit and Delete ONLY the tickets they have created.</li>
+                                                <li style="font-size:12px">Can see only their own ticket details and projects they are assigned to.</li>
                                             </ul>
                                         </div>
                                         <div class="card-footer">
@@ -144,13 +144,16 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="card card-pricing ">
-                                        <div class="card-body">
+                                        <div class="card-body" style="padding-bottom:83px !important">
                                             <div class="card-icon icon-primary">
                                                 <i class="now-ui-icons users_single-02"></i>
                                             </div>
-                                            <h3 class="card-title">Demo Developer</h3>
+                                            <h4 class="card-title">Demo Developer</h4>
                                             <ul>
-                                                <li>Try BugTracker as Developer</li>
+                                                <li><h6>Try BugTracker as Developer</h6></li>
+                                                <li style="font-size:12px">Can view the projects and ticket details they are assigned to.</li>
+                                                <li style="font-size:12px">Can Edit/Delete their tickets details.</li>
+                                                <li style="font-size:12px">Cannot Edit the ticket status.</li>
                                             </ul>
                                         </div>
                                         <div class="card-footer">
@@ -167,13 +170,15 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="card card-pricing ">
-                                        <div class="card-body">
+                                        <div class="card-body" style="padding-bottom:90px !important">
                                             <div class="card-icon icon-primary ">
                                                 <i class="now-ui-icons users_single-02"></i>
                                             </div>
-                                            <h3 class="card-title">Demo Project Manager</h3>
+                                            <h4 class="card-title">Demo Project Manager</h4>
                                             <ul>
-                                                <li>Try BugTracker as PM</li>
+                                                <li><h6>Try BugTracker as PM</h6></li>
+                                                <li style="font-size:12px">Assigns Developers and Submitters to projects.</li>
+                                                <li style="font-size:12px">Can Edit/Delete Projects they have created/Assigned to.</li>
                                             </ul>
                                         </div>
                                         <div class="card-footer">
@@ -194,20 +199,6 @@
                 </div>
                     <footer class="footer">
                         <div class=" container-fluid ">
-                            <nav>
-                                <ul>
-                                    <li>
-                                        <a href="https://twright-portfolio.azurewebsites.net/" target="_blank">
-                                            Portfolio
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://twright-blog.azurewebsites.net/" target="_blank">
-                                            Blog
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
                             <div class="copyright" id="copyright">
                                 &copy;
                                 <script>
